@@ -19,11 +19,11 @@ player_hard = {
 }
 
 player_soft = {
-  13 =>  ["H", "H", "DH", "DH", "DH", "H", "H", "H", "H", "H"],
-  14 =>  ["H", "H", "DH", "DH", "DH", "H", "H", "H", "H", "H"],
-  15 =>  ["H", "H", "DH", "DH", "DH", "H", "H", "H", "H", "H"],
-  16 =>  ["H", "H", "DH", "DH", "DH", "H", "H", "H", "H", "H"],
-  17 =>  ["DH", "DH", "DH", "DH", "DH", "H", "H", "H", "H", "H"],
+  13 =>  ["H", "H", "Dh", "Dh", "Dh", "H", "H", "H", "H", "H"],
+  14 =>  ["H", "H", "Dh", "Dh", "Dh", "H", "H", "H", "H", "H"],
+  15 =>  ["H", "H", "Dh", "Dh", "Dh", "H", "H", "H", "H", "H"],
+  16 =>  ["H", "H", "Dh", "Dh", "Dh", "H", "H", "H", "H", "H"],
+  17 =>  ["Dh", "Dh", "Dh", "Dh", "Dh", "H", "H", "H", "H", "H"],
   18 =>  ["S", "Ds", "Ds", "Ds", "Ds", "S", "S", "H", "H", "S"],
   19 =>  ["S", "S", "S", "S", "Ds", "S", "S", "S", "S", "S"],
   20 =>  ["S", "S", "S", "S", "S", "S", "S", "S", "S", "S"],
@@ -40,15 +40,15 @@ player_pair = {
   8  =>	 ["P", "P", "P", "P", "P", "P", "P", "P", "P", "P"],
   9  =>	 ["P", "P", "P", "P", "P", "S", "P", "P", "S", "S"],
   10 =>  ["S", "S", "S", "S", "S", "S", "S", "S", "S", "S"],
-  "A"  =>	 ["P", "P", "P", "P", "P", "P", "P", "P", "P", "P"]
+  11  =>	 ["P", "P", "P", "P", "P", "P", "P", "P", "P", "P"]
 }
 
 moves = {
-  "H" => "Hit",
-  "S" => "Stand",
-  "P" => "Split",
-  "Dh" => "Double if possible (otherwise hit)",
-  "Ds" => "Double if possible (otherwise stand)"
+  "H" => "hit",
+  "S" => "stand",
+  "P" => "split",
+  "Dh" => "double if possible (otherwise hit)",
+  "Ds" => "double if possible (otherwise stand)"
 }
 
 face_cards = ["J", "Q", "K", "A"]
@@ -59,6 +59,7 @@ def check_if_valid(card, face_cards)
     puts "Not valid entry, please try again"
     card = gets.chomp
   end
+  card
 end
 
 def player_hand_type(card1, card2)
@@ -71,7 +72,7 @@ def player_hand_type(card1, card2)
   end
 end
 
-def check_if_face(card, face_cards_no_ace) #include in comments
+def check_if_face(card, face_cards_no_ace)
   if face_cards_no_ace.include?(card.upcase)
     card = 10
   elsif card.upcase == "A"
@@ -83,7 +84,7 @@ end
 
 def move(hand_type, user_card1, user_card2, dealer_card1)
   player_total = user_card1 + user_card2
-  hand_type[player_total][dealer_card1-2]
+  hand_type[player_total][dealer_card1 - 2]
 end
 
 def new_game(move)
@@ -102,7 +103,7 @@ loop do
   puts "Please enter the dealer's card"
   dealer_card1 = check_if_valid(gets.chomp, face_cards)
 
-  user_card1 = check_if_face(user_card1, face_cards_no_ace) #include in comments
+  user_card1 = check_if_face(user_card1, face_cards_no_ace)
   user_card2 = check_if_face(user_card2, face_cards_no_ace)
   dealer_card1 = check_if_face(dealer_card1, face_cards_no_ace)
 
@@ -110,7 +111,7 @@ loop do
 
   case player_hand_type
     when "pair"
-      move = move(player_pair, user_card1, user_card2, dealer_card1)
+      move = player_pair[user_card1][dealer_card1 - 2]
     when "soft"
       move = move(player_soft, user_card1, user_card2, dealer_card1)
     when "hard"
